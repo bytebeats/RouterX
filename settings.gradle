@@ -1,5 +1,5 @@
 rootProject.name = "RouterX"
 include ':app'
-include ':routerx-api'
+include ':routerx-core'
 include ':routerx-annotation'
 include ':routerx-apt'

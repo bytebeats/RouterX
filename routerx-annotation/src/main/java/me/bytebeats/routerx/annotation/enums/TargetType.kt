@@ -17,7 +17,7 @@ enum class TargetType(val id: Int, val className: String) {
     // TODO: 2021/10/25 finished class path of PROVIDER
     PROVIDER(2, "me.bytebeats.routerx.facade.template.IProvider"),
     CONTENT_PROVIDER(-1, "android.content.ContentProvider"),
-    BROADCAST(-1, "android.content.BroadcastReceiver"),
+    RECEIVER(-1, "android.content.BroadcastReceiver"),
     METHOD(-1, ""),
     FRAGMENT(-1, "androidx.fragment.app.Fragment"),
     UNKNOWN(-1, "UNKNOWN");
