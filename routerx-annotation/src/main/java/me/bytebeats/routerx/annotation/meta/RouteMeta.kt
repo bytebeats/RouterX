@@ -14,21 +14,21 @@ import javax.lang.model.element.Element
  */
 data class RouteMeta internal constructor(
     /* 路由的目标类型 */
-    private val type: TargetType?,
+    val type: TargetType?,
     /* raw type of route */
-    private val rawType: Element?,
+    val rawType: Element?,
     /* 路由目标类 */
-    private val destination: Class<*>?,
+    val destination: Class<*>?,
     /* 路由路径 */
-    private val path: String,
+    val path: String,
     /* 路由所在的组名 */
-    private val group: String?,
+    var group: String?,
     /* 路由的优先级【数字越小，优先级越高】 */
-    private val priority: Int = -1,
+    val priority: Int = -1,
     /* 拓展属性 */
-    private val extras: Int,
+    val extras: Int,
     /* 被{@link AutoWired}所有字段的类型集合【key为参数的key，value为参数的类型 {@link DataType}】 */
-    private val paramsType: MutableMap<String, Int>?
+    val paramsType: MutableMap<String, Int>?
 ) {
     companion object {
         /**
@@ -58,13 +58,13 @@ data class RouteMeta internal constructor(
          */
         fun build(
             router: Router,
-            destination: Class<*>,
+            rawType: Element?,
             type: TargetType,
             paramsType: MutableMap<String, Int>?
         ): RouteMeta = RouteMeta(
             type = type,
-            rawType = null,
-            destination = destination,
+            rawType = rawType,
+            destination = null,
             path = router.path,
             group = router.group,
             priority = router.priority,
