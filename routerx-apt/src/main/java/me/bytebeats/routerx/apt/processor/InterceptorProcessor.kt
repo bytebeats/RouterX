@@ -168,7 +168,7 @@ class InterceptorProcessor : AbstractProcessor() {
          * ```Map<Integer, Class<? extends IInterceptor>>```
          */
         val parameterizedTypeNameOfInterceptor = ParameterizedTypeName.get(
-            ClassName.get(Map::class.java),
+            ClassName.get(java.util.Map::class.java),
             ClassName.get(Integer::class.java),
             ParameterizedTypeName.get(
                 ClassName.get(Class::class.java),
