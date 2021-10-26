@@ -24,7 +24,7 @@ import kotlin.jvm.Throws
  * @Created at 2021/10/25 21:04
  * @Version 1.0
  * @Description Process the annotation of {@link Interceptor}
- * 自动生成IInterceptor注册接口 RouterX$$Interceptors$$[moduleName]
+ * 自动生成IInterceptor注册接口 RouterX$$Interceptors$$[sModuleName]
  */
 
 @AutoService(Processor::class)
@@ -35,29 +35,29 @@ class InterceptorProcessor : AbstractProcessor() {
     /**
      * 拦截器表【拦截器的优先级 and 拦截器的类】
      */
-    private val interceptors = sortedMapOf<Int, Element>()
+    private val mInterceptors = sortedMapOf<Int, Element>()
 
     /**
-     * 写class文件到disk
+     * 写Java文件到disk
      */
-    private lateinit var filer: Filer
+    private lateinit var mFiler: Filer
 
     /**
      * 日志打印工具
      */
-    private lateinit var logger: Logger
+    private lateinit var mLogger: Logger
 
     /**
      * 获取类的工具
      */
-    private lateinit var elements: Elements
+    private lateinit var mElements: Elements
 
     /**
      * 模块名，可以是'app'或者其他
      */
-    private var moduleName: String = ""
+    private var sModuleName: String = ""
 
-    private lateinit var interceptorTypeMirror: TypeMirror
+    private lateinit var mInterceptorType: TypeMirror
 
     /**
      * Initializes the processor with the processing environment by
@@ -73,32 +73,31 @@ class InterceptorProcessor : AbstractProcessor() {
     override fun init(processingEnv: ProcessingEnvironment?) {
         super.init(processingEnv)
         processingEnv?.also {
-            filer = it.filer
-            elements = it.elementUtils
-            logger = Logger(it.messager)
+            mFiler = it.filer
+            mElements = it.elementUtils
+            mLogger = Logger(it.messager)
             obtainModuleName(it)
-            interceptorTypeMirror = elements.getTypeElement(I_INTERCEPTOR).asType()
-            logger.info(">>> InterceptorProcessor init. <<<")
+            mInterceptorType = mElements.getTypeElement(I_INTERCEPTOR).asType()
+            mLogger.info(">>> InterceptorProcessor init. <<<")
         }
     }
 
     /**
-     * 获取用户在annotationProcessorOptions中定义的[moduleName]
+     * 获取用户在annotationProcessorOptions中定义的[sModuleName]
      *
      * @param processingEnv
      */
-
     private fun obtainModuleName(processingEnv: ProcessingEnvironment?) {
         val options = processingEnv?.options ?: mutableMapOf()
         if (options.isNotEmpty()) {
-            moduleName = options[KEY_MODULE_NAME] ?: ""
+            sModuleName = options[KEY_MODULE_NAME] ?: ""
         }
 
-        if (moduleName.isNotEmpty()) {
-            moduleName = moduleName.replace("[^0-9a-zA-Z_]+".toRegex(), "")
-            logger.info("The user has configuration the module name, it was [$moduleName]")
+        if (sModuleName.isNotEmpty()) {
+            sModuleName = sModuleName.replace("[^0-9a-zA-Z_]+".toRegex(), "")
+            mLogger.info("The user has configuration the module name, it was [$sModuleName]")
         } else {
-            logger.error(
+            mLogger.error(
                 "These no module name, at 'build.gradle', like :\n" +
                         "apt {\n" +
                         "    arguments {\n" +
@@ -123,9 +122,9 @@ class InterceptorProcessor : AbstractProcessor() {
                     parseInterceptors(this)
                 }
             } catch (ignored: IOException) {
-                logger.error(ignored)
+                mLogger.error(ignored)
             } catch (ignored: IllegalArgumentException) {
-                logger.error(ignored)
+                mLogger.error(ignored)
             }
             return true
         }
@@ -139,13 +138,13 @@ class InterceptorProcessor : AbstractProcessor() {
      */
     @Throws(IOException::class, IllegalArgumentException::class)
     private fun parseInterceptors(elements: Set<Element>) {
-        logger.info(">>> Found Interceptors, size is ${elements.size} <<<")
+        mLogger.info(">>> Found Interceptors, size is ${elements.size} <<<")
         elements.forEach { element ->// Verify and cache, sort incidentally.
-            val isInterceptor = (element as TypeElement).interfaces.contains(interceptorTypeMirror)
+            val isInterceptor = (element as TypeElement).interfaces.contains(mInterceptorType)
             val interceptor = element.getAnnotation(Interceptor::class.java)
             if (isInterceptor && interceptor != null) {// 验证@Interceptor标注拦截器类的有效性
-                logger.info("An interceptor verify over, it is " + element.asType())
-                val lastInterceptor = interceptors[interceptor.priority]
+                mLogger.info("An interceptor verify over, it is " + element.asType())
+                val lastInterceptor = mInterceptors[interceptor.priority]
                 if (lastInterceptor != null) {
                     throw IllegalArgumentException(
                         "More than one interceptors use same priority [%d], They are [%s] and [%s].".format(
@@ -153,16 +152,16 @@ class InterceptorProcessor : AbstractProcessor() {
                         )
                     )
                 } else {
-                    interceptors[interceptor.priority] = element
+                    mInterceptors[interceptor.priority] = element
                 }
             } else {
-                logger.error("An interceptor verify failed, it is " + element.asType());
+                mLogger.error("An interceptor verify failed, it is " + element.asType());
             }
         }
 
         //RouterX Interfaces
-        val typeIInterceptor = this.elements.getTypeElement(I_INTERCEPTOR)
-        val typeIInterceptorGroup = this.elements.getTypeElement(I_INTERCEPTOR_GROUP)
+        val typeIInterceptor = this.mElements.getTypeElement(I_INTERCEPTOR)
+        val typeIInterceptorGroup = this.mElements.getTypeElement(I_INTERCEPTOR_GROUP)
 
         /**
          * Build input type, format as : 存放拦截器的接口类
@@ -192,8 +191,8 @@ class InterceptorProcessor : AbstractProcessor() {
             MethodSpec.methodBuilder(METHOD_LOAD_INTO).addAnnotation(Override::class.java).addModifiers(Modifier.PUBLIC)
                 .addParameter(paramSpec)
         // 填充构建RouterX$$Interceptors$$信息，生成对应代码
-        if (interceptors.isNotEmpty()) {
-            for (entry in interceptors) {
+        if (mInterceptors.isNotEmpty()) {
+            for (entry in mInterceptors) {
                 loadIntoMethodSpecBuilder.addStatement(
                     "interceptors.put(${entry.key}, \$T.class)",
                     ClassName.get(entry.value as TypeElement)
@@ -202,11 +201,11 @@ class InterceptorProcessor : AbstractProcessor() {
         }
         // 生成RouterX$$Interceptors$$[moduleName] 拦截器组注册接口类
         JavaFile.builder(
-            PACKAGE_GENERATED, TypeSpec.classBuilder("$INTERCEPTORS_NAME$moduleName")
+            PACKAGE_GENERATED, TypeSpec.classBuilder("$INTERCEPTORS_NAME$sModuleName")
                 .addModifiers(Modifier.PUBLIC).addJavadoc(APT_WARNING_TIP).addMethod(loadIntoMethodSpecBuilder.build())
                 .addSuperinterface(ClassName.get(typeIInterceptorGroup))
                 .build()
-        ).build().writeTo(filer)
-        logger.info(">>> Interceptor group write over. <<<");
+        ).build().writeTo(mFiler)
+        mLogger.info(">>> Interceptor group write over. <<<");
     }
 }
