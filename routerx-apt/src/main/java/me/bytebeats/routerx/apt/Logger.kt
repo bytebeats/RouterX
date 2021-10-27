@@ -41,5 +41,5 @@ class Logger(private val msgr: Messager) {
         }
     }
 
-    private fun formatStackTrace(stackTrace: Array<StackTraceElement>) = stackTrace.joinToString(separator = "\n\t ")
+    private fun formatStackTrace(stackTrace: Array<StackTraceElement>) = stackTrace.joinToString(separator = "\tat ", postfix = "\n")
 }
