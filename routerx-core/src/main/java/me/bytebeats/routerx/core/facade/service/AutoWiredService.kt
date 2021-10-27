@@ -1,5 +1,7 @@
 package me.bytebeats.routerx.core.facade.service
 
+import me.bytebeats.routerx.core.facade.template.IProvider
+
 /**
  * @Author bytebeats
  * @Email <happychinapc@gmail.com>
@@ -9,7 +11,7 @@ package me.bytebeats.routerx.core.facade.service
  * @Description 实现自动装配（依赖注入）的服务
  */
 
-interface AutoWiredService {
+interface AutoWiredService : IProvider {
     /**
      * 自动装配
      * @param instance 自动装配的目标
