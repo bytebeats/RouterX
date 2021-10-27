@@ -10,4 +10,9 @@ package me.bytebeats.routerx.core
  */
 
 class RouterX {
+    companion object {
+        fun debuggable(): Boolean {
+            return false
+        }
+    }
 }

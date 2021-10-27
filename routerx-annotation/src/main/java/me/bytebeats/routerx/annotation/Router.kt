@@ -15,7 +15,7 @@ package me.bytebeats.routerx.annotation
  * Ps. U should use the integer num sign the switch, by bits. 10001010101010
  * @param priority  路由的优先级
  */
-@Target(AnnotationTarget.TYPE)
+@Target(AnnotationTarget.TYPE, AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.BINARY)
 annotation class Router(
     val path: String,

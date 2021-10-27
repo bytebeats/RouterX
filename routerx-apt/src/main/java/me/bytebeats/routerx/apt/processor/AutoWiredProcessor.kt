@@ -291,7 +291,7 @@ class AutoWiredProcessor : AbstractProcessor() {
 
     companion object {
         private val ROUTER_X_CLASS_NAME = ClassName.get("me.bytebeats.routerx.core", "RouterX")
-        private val RX_LOG_CLASS_NAME = ClassName.get("me.bytebeats.routerx.core", "RXLog")
+        private val RX_LOG_CLASS_NAME = ClassName.get("me.bytebeats.routerx.core.logger", "RXLog")
         private const val FIELD_NAME_OF_SERIALIZATION_SERVICE = "serializationService"
     }
 }
