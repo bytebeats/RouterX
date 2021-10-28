@@ -9,10 +9,11 @@ package me.bytebeats.routerx.core
  * @Description TO-DO
  */
 
-class RouterX {
-    companion object {
-        fun debuggable(): Boolean {
-            return false
-        }
+object RouterX {
+    // Key of raw uri
+    internal const val RAW_URI = "NTeRQWvye18AkPd6G"
+    internal const val AUTO_INJECT = "wmHzgD4lOj5o4241"
+    fun debuggable(): Boolean {
+        return false
     }
 }

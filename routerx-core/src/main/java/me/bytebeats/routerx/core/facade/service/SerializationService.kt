@@ -20,7 +20,7 @@ interface SerializationService : IProvider {
      * @return json string
      */
 
-    fun toJson(instance: Any): String
+    fun toJson(instance: Any?): String
 
     /**
      * json反序列化为对象

@@ -13,5 +13,5 @@ interface IRouteRoot {
     /**
      * 加载路由组元素
      */
-    fun loadInfo(routes: Map<String, Class<in IRouteGroup>>)
+    fun loadInfo(routes: Map<String, Class<out IRouteGroup>>)
 }
