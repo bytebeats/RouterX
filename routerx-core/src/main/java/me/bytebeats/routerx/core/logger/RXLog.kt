@@ -19,7 +19,7 @@ object RXLog {
     /**
      * 默认tag
      */
-    const val DEFAULT_LOG_TAG = "[RouterX]"
+    private const val DEFAULT_LOG_TAG = "[RouterX]"
 
     /**
      * 最大日志优先级【日志优先级为最大等级，所有日志都不打印】
@@ -92,10 +92,10 @@ object RXLog {
     /**
      * 设置是否打开调试
      *
-     * @param isDebug
+     * @param enabled
      */
-    fun debug(isDebug: Boolean) {
-        if (isDebug) {
+    fun enableDebug(enabled: Boolean) {
+        if (enabled) {
             debug(DEFAULT_LOG_TAG)
         } else {
             debug("")

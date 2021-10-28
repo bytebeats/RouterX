@@ -20,12 +20,12 @@ interface PathReplaceService : IProvider {
      * @param path raw path
      */
 
-    fun forString(path: String): String
+    fun forString(path: String?): String?
 
     /**
      * 重定向资源uri类型的路由路径
      *
      * @param uri raw uri
      */
-    fun forUri(uri: Uri): Uri
+    fun forUri(uri: Uri?): Uri?
 }

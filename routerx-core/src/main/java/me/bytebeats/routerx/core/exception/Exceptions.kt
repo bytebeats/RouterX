@@ -22,4 +22,4 @@ class HandlerException(message: String) : RuntimeException(message)
 /**
  * 路由找不到错误
  */
-class RouteNoFoundException(message: String) : RuntimeException(message)
+class RouteNotFoundException(message: String) : RuntimeException(message)

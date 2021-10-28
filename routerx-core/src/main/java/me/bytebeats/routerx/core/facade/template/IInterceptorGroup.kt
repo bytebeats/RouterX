@@ -15,5 +15,5 @@ interface IInterceptorGroup {
      *
      * @param interceptors input
      */
-    fun loadInto(interceptors: Map<Int, Class<in IInterceptor>>)
+    fun loadInto(interceptors: Map<Int, Class<out IInterceptor>>)
 }

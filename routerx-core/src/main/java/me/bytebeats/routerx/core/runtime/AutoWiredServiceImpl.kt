@@ -29,7 +29,6 @@ class AutoWiredServiceImpl : AutoWiredService {
      */
     private lateinit var mBlackList: MutableSet<String>
 
-
     override fun init(context: Context) {
         mClassCache = LruCache(60)
         mBlackList = mutableSetOf()
