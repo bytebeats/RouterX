@@ -5,7 +5,7 @@ import me.bytebeats.routerx.annotation.enums.DataType
 import me.bytebeats.routerx.annotation.enums.TargetType
 import me.bytebeats.routerx.core.RouterX
 import me.bytebeats.routerx.core.exception.HandlerException
-import me.bytebeats.routerx.core.exception.RouteNoFoundException
+import me.bytebeats.routerx.core.exception.RouteNotFoundException
 import me.bytebeats.routerx.core.facade.Postcard
 import me.bytebeats.routerx.core.facade.template.IInterceptorGroup
 import me.bytebeats.routerx.core.facade.template.IProvider
@@ -177,12 +177,12 @@ object LogisticsCenter {
      */
     @Synchronized
     fun completion(postcard: Postcard?) {
-        postcard ?: throw RouteNoFoundException("$TAG Postcard was not found!")
+        postcard ?: throw RouteNotFoundException("$TAG Postcard was not found!")
         val meta = WareHouse.routes[postcard.path]
         if (meta == null) {// 路由信息不存在内存中的话，先加载
             val groupClass = WareHouse.groupsIndex[postcard.group]// Load routeInfo
             if (groupClass == null) {
-                throw RouteNoFoundException("${TAG}There is no route match the path [${postcard.path}], in group [${postcard.group}]")
+                throw RouteNotFoundException("${TAG}There is no route match the path [${postcard.path}], in group [${postcard.group}]")
             } else {
                 // Load route and cache it into memory, then delete it.
                 try {
@@ -229,7 +229,7 @@ object LogisticsCenter {
                         inflate(postcard, entry.value, entry.key, params[entry.key])
                     }
                     // Save params name which need auto inject.
-                    postcard.bundle.putStringArray(RouterX.AUTO_INJECT, it.keys.toTypedArray())
+                    postcard.bundle?.putStringArray(RouterX.AUTO_INJECT, it.keys.toTypedArray())
                 }
                 postcard.withString(RouterX.RAW_URI, rawUri.toString())
             }

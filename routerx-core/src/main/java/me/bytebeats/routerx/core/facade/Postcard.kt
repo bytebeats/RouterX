@@ -34,7 +34,7 @@ class Postcard(
     var path: String? = null,
     var group: String? = null,
     var uri: Uri? = null,
-    var bundle: Bundle = Bundle()
+    var bundle: Bundle? =  Bundle()
 ) {
     /*  暂时存放出错的信息  */
     var tag: Any? = null
@@ -78,7 +78,7 @@ class Postcard(
     /* 拓展属性 */
     var extras: Int = 0
 
-    fun getData(): Bundle = bundle
+    fun getData(): Bundle? = bundle
 
     /**
      * 路由导航
@@ -134,7 +134,7 @@ class Postcard(
     fun withObject(key: String?, value: Any?): Postcard = apply {
 //        serializationService =
         // TODO: 2021/10/28 serializationService
-        bundle.putString(key, serializationService?.toJson(value))
+        bundle?.putString(key, serializationService?.toJson(value))
     }
 
     // Follow api copy from #{Bundle}
@@ -146,7 +146,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a String, or null
      */
-    fun withString(key: String?, value: String?): Postcard = apply { bundle.putString(key, value) }
+    fun withString(key: String?, value: String?): Postcard = apply { bundle?.putString(key, value) }
 
     /**
      * Inserts a Boolean value into the mapping of this Bundle, replacing
@@ -155,7 +155,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a boolean
      */
-    fun withBoolean(key: String?, value: Boolean): Postcard = apply { bundle.putBoolean(key, value) }
+    fun withBoolean(key: String?, value: Boolean): Postcard = apply { bundle?.putBoolean(key, value) }
 
     /**
      * Inserts a short value into the mapping of this Bundle, replacing
@@ -164,7 +164,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a short
      */
-    fun withShort(key: String?, value: Short): Postcard = apply { bundle.putShort(key, value) }
+    fun withShort(key: String?, value: Short): Postcard = apply { bundle?.putShort(key, value) }
 
     /**
      * Inserts an int value into the mapping of this Bundle, replacing
@@ -173,7 +173,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value an int
      */
-    fun withInt(key: String?, value: Int): Postcard = apply { bundle.putInt(key, value) }
+    fun withInt(key: String?, value: Int): Postcard = apply { bundle?.putInt(key, value) }
 
     /**
      * Inserts a long value into the mapping of this Bundle, replacing
@@ -182,7 +182,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a long
      */
-    fun withLong(key: String?, value: Long): Postcard = apply { bundle.putLong(key, value) }
+    fun withLong(key: String?, value: Long): Postcard = apply { bundle?.putLong(key, value) }
 
     /**
      * Inserts a double value into the mapping of this Bundle, replacing
@@ -191,7 +191,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a double
      */
-    fun withDouble(key: String?, value: Double): Postcard = apply { bundle.putDouble(key, value) }
+    fun withDouble(key: String?, value: Double): Postcard = apply { bundle?.putDouble(key, value) }
 
     /**
      * Inserts a byte value into the mapping of this Bundle, replacing
@@ -200,7 +200,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a byte
      */
-    fun withByte(key: String?, value: Byte): Postcard = apply { bundle.putByte(key, value) }
+    fun withByte(key: String?, value: Byte): Postcard = apply { bundle?.putByte(key, value) }
 
     /**
      * Inserts a char value into the mapping of this Bundle, replacing
@@ -209,7 +209,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a char
      */
-    fun withChar(key: String?, value: Char): Postcard = apply { bundle.putChar(key, value) }
+    fun withChar(key: String?, value: Char): Postcard = apply { bundle?.putChar(key, value) }
 
     /**
      * Inserts a float value into the mapping of this Bundle, replacing
@@ -218,7 +218,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a float
      */
-    fun withFloat(key: String?, value: Float): Postcard = apply { bundle.putFloat(key, value) }
+    fun withFloat(key: String?, value: Float): Postcard = apply { bundle?.putFloat(key, value) }
 
     /**
      * Inserts a CharSequence value into the mapping of this Bundle, replacing
@@ -227,7 +227,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a CharSequence, or null
      */
-    fun withCharSequence(key: String?, value: CharSequence?): Postcard = apply { bundle.putCharSequence(key, value) }
+    fun withCharSequence(key: String?, value: CharSequence?): Postcard = apply { bundle?.putCharSequence(key, value) }
 
     /**
      * Inserts a Parcelable value into the mapping of this Bundle, replacing
@@ -236,7 +236,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a Parcelable object, or null
      */
-    fun withParcelable(key: String?, value: Parcelable?): Postcard = apply { bundle.putParcelable(key, value) }
+    fun withParcelable(key: String?, value: Parcelable?): Postcard = apply { bundle?.putParcelable(key, value) }
 
     /**
      * Inserts an array of Parcelable values into the mapping of this Bundle,
@@ -247,7 +247,7 @@ class Postcard(
      * @param value an array of Parcelable objects, or null
      */
     fun withParcelableArray(key: String?, value: Array<out Parcelable>?) =
-        apply { bundle.putParcelableArray(key, value) }
+        apply { bundle?.putParcelableArray(key, value) }
 
     /**
      * Inserts a List of Parcelable values into the mapping of this Bundle,
@@ -258,7 +258,7 @@ class Postcard(
      * @param value an ArrayList of Parcelable objects, or null
      */
     fun withParcelableArrayList(key: String?, value: ArrayList<out Parcelable>?) =
-        apply { bundle.putParcelableArrayList(key, value) }
+        apply { bundle?.putParcelableArrayList(key, value) }
 
     /**
      * Inserts a SparceArray of Parcelable values into the mapping of this
@@ -269,7 +269,7 @@ class Postcard(
      * @param value a SparseArray of Parcelable objects, or null
      */
     fun withSparseParcelableArray(key: String?, value: SparseArray<out Parcelable>?) =
-        apply { bundle.putSparseParcelableArray(key, value) }
+        apply { bundle?.putSparseParcelableArray(key, value) }
 
     /**
      * Inserts an ArrayList value into the mapping of this Bundle, replacing
@@ -279,7 +279,7 @@ class Postcard(
      * @param value an ArrayList object, or null
      */
     fun withIntegerArrayList(key: String?, value: ArrayList<Int>?) =
-        apply { bundle.putIntegerArrayList(key, value) }
+        apply { bundle?.putIntegerArrayList(key, value) }
 
     /**
      * Inserts an ArrayList value into the mapping of this Bundle, replacing
@@ -289,7 +289,7 @@ class Postcard(
      * @param value an ArrayList object, or null
      */
     fun withStringArrayList(key: String?, value: ArrayList<String>?) =
-        apply { bundle.putStringArrayList(key, value) }
+        apply { bundle?.putStringArrayList(key, value) }
 
     /**
      * Inserts an ArrayList value into the mapping of this Bundle, replacing
@@ -299,7 +299,7 @@ class Postcard(
      * @param value an ArrayList object, or null
      */
     fun withCharSequenceArrayList(key: String?, value: ArrayList<CharSequence>?) =
-        apply { bundle.putCharSequenceArrayList(key, value) }
+        apply { bundle?.putCharSequenceArrayList(key, value) }
 
     /**
      * Inserts a Serializable value into the mapping of this Bundle, replacing
@@ -308,7 +308,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a Serializable object, or null
      */
-    fun withSerializable(key: String?, value: Serializable?) = apply { bundle.putSerializable(key, value) }
+    fun withSerializable(key: String?, value: Serializable?) = apply { bundle?.putSerializable(key, value) }
 
     /**
      * Inserts a byte array value into the mapping of this Bundle, replacing
@@ -317,7 +317,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a byte array object, or null
      */
-    fun withByteArray(key: String?, value: ByteArray?) = apply { bundle.putByteArray(key, value) }
+    fun withByteArray(key: String?, value: ByteArray?) = apply { bundle?.putByteArray(key, value) }
 
     /**
      * Inserts a short array value into the mapping of this Bundle, replacing
@@ -326,7 +326,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a short array object, or null
      */
-    fun withShortArray(key: String?, value: ShortArray?) = apply { bundle.putShortArray(key, value) }
+    fun withShortArray(key: String?, value: ShortArray?) = apply { bundle?.putShortArray(key, value) }
 
     /**
      * Inserts a char array value into the mapping of this Bundle, replacing
@@ -335,7 +335,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a char array object, or null
      */
-    fun withCharArray(key: String?, value: CharArray?) = apply { bundle.putCharArray(key, value) }
+    fun withCharArray(key: String?, value: CharArray?) = apply { bundle?.putCharArray(key, value) }
 
     /**
      * Inserts a float array value into the mapping of this Bundle, replacing
@@ -344,7 +344,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a float array object, or null
      */
-    fun withFloatArray(key: String?, value: FloatArray?) = apply { bundle.putFloatArray(key, value) }
+    fun withFloatArray(key: String?, value: FloatArray?) = apply { bundle?.putFloatArray(key, value) }
 
     /**
      * Inserts a CharSequence array value into the mapping of this Bundle, replacing
@@ -354,7 +354,7 @@ class Postcard(
      * @param value a CharSequence array object, or null
      */
     fun withCharSequenceArray(key: String?, value: Array<CharSequence>?) =
-        apply { bundle.putCharSequenceArray(key, value) }
+        apply { bundle?.putCharSequenceArray(key, value) }
 
     /**
      * Inserts a int array value into the mapping of this Bundle, replacing
@@ -363,7 +363,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a float array object, or null
      */
-    fun withIntArray(key: String?, value: IntArray?) = apply { bundle.putIntArray(key, value) }
+    fun withIntArray(key: String?, value: IntArray?) = apply { bundle?.putIntArray(key, value) }
 
     /**
      * Inserts a Bundle value into the mapping of this Bundle, replacing
@@ -372,7 +372,7 @@ class Postcard(
      * @param key   a String, or null
      * @param value a Bundle object, or null
      */
-    fun withBundle(key: String?, value: Bundle?) = apply { bundle.putBundle(key, value) }
+    fun withBundle(key: String?, value: Bundle?) = apply { bundle?.putBundle(key, value) }
 
     /**
      * 设置切换动画
