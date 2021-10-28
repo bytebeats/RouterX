@@ -43,7 +43,7 @@ class Postcard(
     var flags: Int = -1
 
     /*  路由超时时间（包括拦截器执行的时间，单位: 秒）  */
-    var timeout: Int = 300
+    var timeout: Long = 300
 
     /*  RouteType = PROVIDER 时，将会被赋值  */
     var provider: IProvider? = null
@@ -395,7 +395,7 @@ class Postcard(
         apply { this@Postcard.optionsCompat = optionsCompat.toBundle() }
 
     override fun toString(): String {
-        return "Postcard(path=$path, group=$group, uri=$uri, bundle=$bundle, tag=$tag, flags=$flags, timeout=$timeout, provider=$provider, greenChannel=$greenChannel, serializationService=$serializationService, optionsCompat=$optionsCompat, enterAnim=$enterAnim, exitAnim=$exitAnim, action=$action)"
+        return "Postcard(path=$path, group=$group, uri=$uri, bundle=$bundle, tag=$tag, flags=$flags, timeout=$timeout, provider=$provider, greenChannel=$greenChannel, serializationService=$serializationService, optionsCompat=$optionsCompat, enterAnim=$enterAnim, exitAnim=$exitAnim, action=$action, destination=$destination, priority=$priority, type=$type, extras=$extras)"
     }
 
     @IntDef(

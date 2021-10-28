@@ -17,5 +17,5 @@ interface InterceptorService : IProvider {
     /**
      * 执行拦截操作
      */
-    fun doIntercept(postCard: Postcard, callback: InterceptorCallback)
+    fun doIntercept(postcard: Postcard, callback: InterceptorCallback)
 }

@@ -6,7 +6,9 @@ import me.bytebeats.routerx.core.exception.HandlerException
 import me.bytebeats.routerx.core.facade.Postcard
 import me.bytebeats.routerx.core.facade.callback.InterceptorCallback
 import me.bytebeats.routerx.core.facade.service.InterceptorService
+import me.bytebeats.routerx.core.logger.RXLog
 import me.bytebeats.routerx.core.util.TAG
+import java.util.concurrent.TimeUnit
 
 /**
  * @Author bytebeats
@@ -19,12 +21,66 @@ import me.bytebeats.routerx.core.util.TAG
 
 class InterceptorServiceImpl : InterceptorService {
 
+    /**
+     * 初始化所有的拦截器，并将其加入到路由表中
+     *
+     * @param context 上下文
+     */
     override fun init(context: Context) {
-
+        LogisticsCenter.mExecutor.execute {
+            if (WareHouse.interceptorsIndex.isNotEmpty()) {
+                for (entry in WareHouse.interceptorsIndex) {
+                    val interceptorClass = entry.value
+                    try {
+                        //初始化所有的拦截器，并将其加入到路由表中
+                        val interceptorInstance = interceptorClass.getConstructor().newInstance()
+                        interceptorInstance.init(context)
+                        WareHouse.interceptors.add(interceptorInstance)
+                    } catch (exp: Exception) {
+                        throw HandlerException("${TAG}XRouter init interceptor error! name = [${interceptorClass.name}], reason = [${exp.message}]")
+                    }
+                }
+                isInitialized = true
+                RXLog.i("RouterX interceptors init finished.")
+                synchronized(initLock) {
+                    initLock.notifyAll()
+                }
+            }
+        }
     }
 
-    override fun doIntercept(postCard: Postcard, callback: InterceptorCallback) {
-
+    /**
+     * 执行拦截器
+     *
+     * @param postcard
+     * @param callback 拦截器的回调监听
+     */
+    override fun doIntercept(postcard: Postcard, callback: InterceptorCallback) {
+        if (WareHouse.interceptors.isNotEmpty()) {
+            checkInit()
+            if (!isInitialized) {
+                callback.onInterrupted(HandlerException("Interceptors initialization takes too much time."))
+                return
+            }
+            LogisticsCenter.mExecutor.execute {
+                val interceptorCounter = CancelableCountDownLatch(WareHouse.interceptors.size)
+                try {
+                    execute(0, interceptorCounter, postcard)
+                    interceptorCounter.await(postcard.timeout, TimeUnit.SECONDS)
+                    if (interceptorCounter.count > 0) {// Cancel the navigation this time, if it hasn't return anything.
+                        callback.onInterrupted(HandlerException("The interceptor processing timed out."))
+                    } else if (postcard.tag != null) {
+                        callback.onInterrupted(HandlerException(postcard.tag.toString()))
+                    } else {
+                        callback.onContinue(postcard)
+                    }
+                } catch (e: Exception) {
+                    callback.onInterrupted(e)
+                }
+            }
+        } else {
+            callback.onContinue(postcard)
+        }
     }
 
     companion object {
