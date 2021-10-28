@@ -20,7 +20,7 @@ object WareHouse {
 
 
     /*  Cache routes and metas  */
-    internal val groupsIndex = mutableMapOf<String, Class<in IRouteGroup>>()
+    internal val groupsIndex = mutableMapOf<String, Class<out IRouteGroup>>()
 
     /*  Cache metas  */
     internal val routes = mutableMapOf<String, RouteMeta>()
@@ -30,7 +30,7 @@ object WareHouse {
     internal val providers = mutableMapOf<Class<*>, IProvider>()
 
     /*  Cache interceptor，因为使用的是TreeMap，且Key为Integer,从而实现拦截器的优先级  */
-    internal val interceptorsIndex = UniqueKeyTreeMap<Int, Class<in IInterceptor>>(TIPS_UNIQUE_KEY)
+    internal val interceptorsIndex = UniqueKeyTreeMap<Int, Class<out IInterceptor>>(TIPS_UNIQUE_KEY)
     internal val interceptors = mutableListOf<IInterceptor>()
 
     fun clear() {
