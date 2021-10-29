@@ -58,10 +58,10 @@ class Postcard(
     var optionsCompat: Bundle? = null
 
     /*  进入动画  */
-    var enterAnim: Int = 0
+    var enterAnim: Int = -1
 
     /*  退出动画  */
-    var exitAnim: Int = 0
+    var exitAnim: Int = -1
 
     /*  增加设置intent的action  */
     var action: String? = null
