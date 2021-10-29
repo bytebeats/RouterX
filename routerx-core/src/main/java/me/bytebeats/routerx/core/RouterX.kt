@@ -1,10 +1,16 @@
 package me.bytebeats.routerx.core
 
 import android.app.Application
+import android.content.Context
+import android.net.Uri
+import androidx.fragment.app.Fragment
 import me.bytebeats.routerx.core.exception.InitializationException
+import me.bytebeats.routerx.core.facade.Postcard
+import me.bytebeats.routerx.core.facade.callback.OnNavigationListener
 import me.bytebeats.routerx.core.logger.ILogger
 import me.bytebeats.routerx.core.logger.RXLog
 import java.util.concurrent.ThreadPoolExecutor
+
 
 /**
  * @Author bytebeats
@@ -16,6 +22,61 @@ import java.util.concurrent.ThreadPoolExecutor
  */
 
 class RouterX private constructor() {
+
+    /**
+     * 注入参数和服务
+     */
+    fun inject(target: Any) {
+        _RouterX.getInstance().inject(target)
+    }
+
+    /**
+     * 构建一个路由表, draw a postcard.
+     *
+     * @param path Where you go.
+     */
+    fun build(path: String?): Postcard? = _RouterX.getInstance().build(path)
+
+    /**
+     * 构建一个路由表, draw a postcard.
+     *
+     * @param url the path
+     */
+    fun build(url: Uri?): Postcard? = _RouterX.getInstance().build(url)
+
+    /**
+     * 获取服务/服务发现
+     *
+     * @param service interface of service
+     * @param <T>     return type
+     * @return instance of service
+    </T> */
+    fun <T> navigation(service: Class<out T>): T? = _RouterX.getInstance().navigation(service)
+
+    /**
+     * 启动路由导航
+     *
+     * @param context
+     * @param postcard
+     * @param requestCode Set for startActivityForResult
+     * @param listener    路由导航回调
+     */
+    fun navigation(context: Context, postcard: Postcard, requestCode: Int, listener: OnNavigationListener?): Any? {
+        return _RouterX.getInstance().navigation(context, postcard, requestCode, listener)
+    }
+
+    /**
+     * 启动路由导航
+     *
+     * @param fragment
+     * @param postcard
+     * @param requestCode Set for startActivityForResult
+     * @param listener    路由导航回调
+     */
+    fun navigation(fragment: Fragment, postcard: Postcard, requestCode: Int, listener: OnNavigationListener?): Any? {
+        return _RouterX.getInstance().navigation(fragment, postcard, requestCode, listener)
+    }
+
     companion object {
 
 
@@ -96,9 +157,11 @@ class RouterX private constructor() {
         fun debuggable(): Boolean {
             return _RouterX.debuggable()
         }
+
         fun monitorMode(): Boolean {
             return _RouterX.monitorMode()
         }
+
         /**
          * 设置日志接口
          *
@@ -106,13 +169,6 @@ class RouterX private constructor() {
          */
         fun setLogger(logger: ILogger) {
             _RouterX.setLogger(logger)
-        }
-
-        /**
-         * 注入参数和服务
-         */
-        fun inject(target: Any) {
-            _RouterX.inject(target)
         }
     }
 }

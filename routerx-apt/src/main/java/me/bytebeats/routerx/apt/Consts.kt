@@ -21,7 +21,7 @@ internal const val PROVIDER_NAME = "$PROJECT${SEPARATOR}Providers$SEPARATOR"
 internal const val GROUP_NAME = "$PROJECT${SEPARATOR}Group$SEPARATOR"
 internal const val INTERCEPTORS_NAME = "$PROJECT${SEPARATOR}Interceptors$SEPARATOR"
 internal const val AUTOWIRED_NAME = "$SEPARATOR$PROJECT${SEPARATOR}AutoWired"
-internal const val PACKAGE_GENERATED = "$PACKAGE_OF_ROUTERX.route"
+internal const val PACKAGE_GENERATED = "$PACKAGE_OF_ROUTERX.routes"
 
 /* Android classes */
 internal const val ACTIVITY = "androidx.activity.ComponentActivity"
